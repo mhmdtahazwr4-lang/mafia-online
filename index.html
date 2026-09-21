@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>مافیا آنلاین</title>
+  <style>
+    body{font-family:system-ui,sans-serif;background:#111827;color:#fff;margin:0;padding:20px}
+    .box{max-width:520px;margin:auto;background:#1f2937;border-radius:18px;padding:20px}
+    input,button{width:100%;box-sizing:border-box;padding:13px;margin:7px 0;border-radius:10px;border:0}
+    input{background:#374151;color:#fff}button{background:#22c55e;color:#fff;font-weight:700}
+    #chat{height:280px;overflow:auto;background:#111827;border-radius:12px;padding:10px;margin-top:15px}
+    .msg{padding:6px 0;border-bottom:1px solid #374151}
+  </style>
+</head>
+<body>
+<div class="box">
+  <h1>🎭 مافیا آنلاین</h1>
+  <input id="name" placeholder="اسم بازیکن">
+  <input id="room" value="main" placeholder="نام اتاق">
+  <button onclick="join()">شروع بازی</button>
+
+  <div id="game" hidden>
+    <h3>بازیکنان</h3>
+    <div id="players">هنوز کسی وارد نشده</div>
+    <div id="chat"></div>
+    <input id="message" placeholder="پیام..." onkeydown="if(event.key==='Enter') send()">
+    <button onclick="send()">ارسال</button>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+const socket = io();
+let currentRoom = "main";
+
+function join(){
+  const name = document.getElementById("name").value.trim() || "بازیکن";
+  currentRoom = document.getElementById("room").value.trim() || "main";
+  socket.emit("joinGame",{name,room:currentRoom});
+  document.getElementById("game").hidden=false;
+}
+
+function send(){
+  const el=document.getElementById("message");
+  if(!el.value.trim()) return;
+  socket.emit("chat",{room:currentRoom,message:el.value});
+  el.value="";
+}
+
+socket.on("players", list=>{
+  document.getElementById("players").textContent =
+    list.length ? list.map((x,i)=>`${i+1}. ${x}`).join(" | ") : "هنوز کسی وارد نشده";
+});
+
+socket.on("chat", data=>{
+  const box=document.getElementById("chat");
+  const p=document.createElement("div");
+  p.className="msg";
+  p.textContent=`${data.name}: ${data.message}`;
+  box.appendChild(p);
+  box.scrollTop=box.scrollHeight;
+});
+
+socket.on("system", msg=>{
+  const box=document.getElementById("chat");
+  const p=document.createElement("div");
+  p.className="msg";
+  p.textContent=`⚙️ ${msg}`;
+  box.appendChild(p);
+});
+</script>
+</body>
+</html>
