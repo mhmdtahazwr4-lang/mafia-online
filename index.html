@@ -1,4 +1,181 @@
-<!doctype html>
+<!doctype html><!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مافیا آنلاین</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Tahoma,Arial,sans-serif;
+  background:linear-gradient(135deg,#111827,#1e293b);
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.box{
+  width:92%;
+  max-width:430px;
+  background:#172033;
+  padding:28px 22px;
+  border-radius:24px;
+  text-align:center;
+  box-shadow:0 15px 40px #0008;
+}
+
+h1{
+  margin-top:0;
+  font-size:34px;
+}
+
+p{
+  color:#cbd5e1;
+}
+
+input{
+  width:100%;
+  padding:15px;
+  margin:10px 0;
+  border:0;
+  border-radius:12px;
+  background:#263449;
+  color:white;
+  font-size:16px;
+  outline:none;
+}
+
+button{
+  width:100%;
+  padding:15px;
+  margin-top:12px;
+  border:0;
+  border-radius:12px;
+  background:#7c3aed;
+  color:white;
+  font-size:17px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+button:active{
+  transform:scale(.98);
+}
+
+#game{
+  display:none;
+}
+
+.players{
+  margin-top:20px;
+  background:#263449;
+  padding:15px;
+  border-radius:15px;
+  text-align:right;
+}
+
+.player{
+  padding:9px;
+  border-bottom:1px solid #ffffff18;
+}
+
+.player:last-child{
+  border-bottom:0;
+}
+
+#message{
+  margin-top:15px;
+  color:#a78bfa;
+  min-height:24px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box" id="home">
+
+  <h1>🎭 مافیا آنلاین</h1>
+
+  <p>وارد بازی شو و آماده مافیا باش!</p>
+
+  <input
+    id="name"
+    type="text"
+    placeholder="اسم بازیکن"
+    maxlength="20"
+  >
+
+  <button onclick="startGame()">
+    🎮 شروع بازی
+  </button>
+
+  <div id="message"></div>
+
+</div>
+
+
+<div class="box" id="game">
+
+  <h1>🎭 مافیا</h1>
+
+  <p id="welcome"></p>
+
+  <div class="players">
+
+    <h3>👥 بازیکنان</h3>
+
+    <div class="player">🧑 بازیکن ۱</div>
+    <div class="player">🧑 بازیکن ۲</div>
+    <div class="player">🧑 بازیکن ۳</div>
+    <div class="player">🧑 بازیکن ۴</div>
+
+  </div>
+
+  <button onclick="backHome()">
+    🔙 برگشت
+  </button>
+
+</div>
+
+
+<script>
+
+function startGame(){
+
+  const name =
+    document.getElementById("name").value.trim();
+
+  if(name === ""){
+    document.getElementById("message").textContent =
+      "اول اسمت رو وارد کن 😎";
+    return;
+  }
+
+  document.getElementById("home").style.display="none";
+  document.getElementById("game").style.display="block";
+
+  document.getElementById("welcome").textContent =
+    "خوش اومدی " + name + " 🔥";
+
+}
+
+function backHome(){
+
+  document.getElementById("game").style.display="none";
+  document.getElementById("home").style.display="block";
+
+}
+
+</script>
+
+</body>
+</html>
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8">
